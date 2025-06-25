@@ -198,3 +198,13 @@ data/raw/
 data/selected_cvs/
 faiss_index/
 n8n_data/
+
+# Environnement virtuel Python
+venv/
+
+# Fichiers de base de données
+*.sqlite
+
+# Fichiers lourds
+*.lib
+*.dll
