@@ -195,9 +195,9 @@ cython_debug/
 
 
 data/raw/
-data/selected_cvs/
-faiss_index/
-n8n_data/
+src/selected_cvs/
+src/faiss_index/
+docker/n8n_data/
 
 # Environnement virtuel Python
 venv/
