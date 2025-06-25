@@ -197,3 +197,4 @@ cython_debug/
 data/raw/
 data/selected_cvs/
 faiss_index/
+docker/n8n_data
