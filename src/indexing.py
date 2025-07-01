@@ -7,6 +7,7 @@ from functools import partial
 
 INDEX_DIR = "faiss_index"
 def build_vector_store():
+    # Charger documents
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     DATA_FOLDER = os.path.join(BASE_DIR, "data", "raw")
     try:
@@ -25,5 +26,3 @@ def build_vector_store():
     vectorstore.save_local(INDEX_DIR)
     
     print("Indexation terminée.")
-
-

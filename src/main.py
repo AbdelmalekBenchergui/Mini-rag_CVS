@@ -19,17 +19,26 @@ def welcome():
 @app.post("/upload-cvs/")
 async def upload_cvs(files: List[UploadFile] = File(...)):
     try:
+        # Supprimer les anciens fichiers du dossier
+        for f in os.listdir(DATA_FOLDER):
+            file_path = os.path.join(DATA_FOLDER, f)
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+
+        # Sauvegarder les nouveaux fichiers
         for file in files:
-            print(" FICHIER RECU:", file.filename)
+            print("FICHIER RECU :", file.filename)
             file_path = os.path.join(DATA_FOLDER, file.filename)
-            print(" Sauvegarde dans :", file_path)
+            print("Sauvegarde dans :", file_path)
             with open(file_path, "wb") as buffer:
                 shutil.copyfileobj(file.file, buffer)
-        print("Contenu du dossier :", os.listdir(DATA_FOLDER))
 
+        print("Contenu du dossier :", os.listdir(DATA_FOLDER))
         return {"message": f"{len(files)} fichiers CV sauvegardés avec succès."}
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erreur upload : {str(e)}")
+
 
 
 @app.post("/index-cvs/")
@@ -37,7 +46,7 @@ def index_cvs():
     try:
         build_vector_store()
         LLM.build_graph() 
-        return {"message": "Indexation terminée avec succès."}
+        return {"message": "✅ Indexation terminée avec succès."}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erreur indexation : {str(e)}")
 
@@ -54,7 +63,7 @@ def ask_cv(question: str = Query(..., min_length=5)):
 
             "question": question,
             "results": [
-                {  
+                { 
                     "score_llm": cv.get("score_llm", None),
                     "score_faiss": cv.get("score_faiss", None),
                     "justification": cv.get("justification", "Pas de justification."),
