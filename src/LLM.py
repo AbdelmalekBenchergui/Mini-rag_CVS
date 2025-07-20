@@ -43,20 +43,18 @@ def build_graph():
         vector_store = FAISS.load_local(INDEX_DIR, embeddings, allow_dangerous_deserialization=True)
 
         def retrieve(state: State):
-            docs_with_scores = vector_store.similarity_search_with_score(state["question"])
+            docs_with_scores = vector_store.similarity_search_with_score(state["question"], k=10)
+
             return {"context": docs_with_scores}
 
         def generate(state: State):
             filtered = []
             merged_context = merge_context_by_file(state["context"])
-            SEUIL_SIMILARITE_FAISS=0.75
             
             DOSSIER_SELECTION = "selected_cvs"
             os.makedirs(DOSSIER_SELECTION, exist_ok=True)  
 
             for filepath, filename, content, score_faiss in merged_context:
-                if score_faiss < SEUIL_SIMILARITE_FAISS:
-                    continue
                 prompt = f"""
                 Tu es un recruteur en ressources humaines. Ta tâche est d'évaluer si ce candidat correspond à l'offre suivante :
 
@@ -71,7 +69,8 @@ def build_graph():
 
                  Format attendu **obligatoire** :
                 NOTE: X/10 — Décision : À conserver / À écarter  
-                Justification : [un seul paragraphe sans sauts de ligne]
+                Justification : [un seul paragraphe sans saut de ligne, 3-4 phrases max]
+
 
                 Texte du CV :
                 {content}

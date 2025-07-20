@@ -204,6 +204,7 @@ docker/n8n_data/
 n8n_data/
 # Environnement virtuel Python
 venv/
+docker7
 
 # Fichiers de base de données
 *.sqlite
