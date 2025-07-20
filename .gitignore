@@ -194,15 +194,11 @@ cython_debug/
 .cursorindexingignore
 
 
-data/raw/
+data/
 
 src/faiss_index/
 
-selected_cvs/
-src/selected_cvs/
-docker/n8n_data/
-n8n_data/
-# Environnement virtuel Python
+
 venv/
 docker/
 
