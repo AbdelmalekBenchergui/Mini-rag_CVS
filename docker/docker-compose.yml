@@ -17,5 +17,3 @@ services:
     volumes:
       - ./n8n_data:/home/node/.n8n
 
-
-jwxz_baGLQN4zQS
